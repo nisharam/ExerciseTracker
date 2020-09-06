@@ -1,6 +1,19 @@
 import React , { Component} from 'react';
+import axios from 'axios';
+import TextField from '@material-ui/core/TextField';
+import { withStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import "./user.css";
 
-export default class createUser extends Component{
+const useStyles = (theme) => ({
+    root: {
+      '& .MuiTextField-root': {
+        margin: theme.spacing(1),
+        width: '25ch',
+      },
+    },
+  });
+ class createUser extends Component{
     constructor(props){
         super(props);
         this.onChangeUsername = this.onChangeUsername.bind(this);
@@ -20,6 +33,10 @@ onSubmit(e){
         username: this.state.username
     }
     console.log(user);
+    axios.post('http://localhost:5000/users/add',user)
+    .then(res => console.log(res.data));
+
+
     //make it again blank.
     this.setState({
         username: ''
@@ -27,15 +44,15 @@ onSubmit(e){
 }
 
     render(){
+        const {classes} = this.props;
         return (
-            <div>
-               <form onSubmit={this.onSubmit} >
+            <div class="user-form">
+               <form onSubmit={this.onSubmit} className={classes.root} noValidate autoComplete="off">
+                   <TextField id="outlined-basic" label="username" variant="outlined" required value={this.state.username} onChange={this.onChangeUsername}/>
+                
                    <div>
-                       <label> Username:</label>
-                       <input type="text" required value={this.state.username} onChange={this.onChangeUsername} />
-                   </div>
-                   <div>
-                       <input type="submit" value="create user" />
+                       {/* <input type="submit" value="create user" /> */}
+                       <Button variant="contained" color="primary" className="user-button" >Create User</Button>
                    </div>
 
 
@@ -44,3 +61,4 @@ onSubmit(e){
         )
     }
 }
+export default withStyles(useStyles)(createUser)

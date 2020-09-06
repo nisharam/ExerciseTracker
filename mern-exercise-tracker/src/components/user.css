@@ -1,0 +1,8 @@
+.user-form{
+    display: flex;
+    justify-content: center;
+}
+.MuiButton-containedPrimary{
+    margin-left: 50px
+   
+}
